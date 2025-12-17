@@ -1,0 +1,141 @@
+/* Card styling */
+.p-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.p-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.p-card-title i {
+  color: #2196F3;
+}
+
+/* Table container styling */
+:host ::ng-deep .p-datatable {
+  font-size: 14px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  text-align: left;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background-color: #ffffff;
+  transition: background-color 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #e9ecef;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+  color: #495057;
+}
+
+/* Paginator styling */
+:host ::ng-deep .p-paginator {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 1rem;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-current {
+  color: #495057;
+  font-weight: 500;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+  color: #2196F3;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.143rem;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: #2196F3;
+  color: #ffffff;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page:hover {
+  background-color: #e3f2fd;
+}
+
+/* Sort icon styling */
+:host ::ng-deep .p-sortable-column-icon {
+  color: #6c757d;
+  margin-left: 0.5rem;
+}
+
+:host ::ng-deep .p-sortable-column:hover {
+  background-color: #e9ecef;
+}
+
+/* Status badge styling (optional enhancement) */
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td:last-child {
+  font-weight: 500;
+}
+
+/* Scrollbar styling */
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Empty message styling */
+:host ::ng-deep .p-datatable .p-datatable-emptymessage td {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .p-card-title {
+    font-size: 1.2rem;
+  }
+  
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+}

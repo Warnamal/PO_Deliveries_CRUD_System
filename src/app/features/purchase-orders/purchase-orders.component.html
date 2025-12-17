@@ -1,1 +1,30 @@
-<p>purchase-orders works!</p>
+<p-card>
+    <div class="flex justify-content-between pb-3 mt-3">
+        <div class="p-card-title">
+            <i class="fa-solid fa-truck pr-2"></i> Purchase Order
+        </div>
+    </div>
+
+    <p-table #dt [value]="purchaseOrders" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowHover]="true" [scrollable]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+
+        <!-- Table Header -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="poNumber">PoNumber <p-sortIcon field="poNumber"></p-sortIcon></th>
+                <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+
+        <!-- Table Body -->
+        <ng-template pTemplate="body" let-po>
+            <tr>
+                <td>{{ po.poNumber }}</td>
+                <td>{{ po.title }}</td>
+                <td>{{ po.status }}</td>
+        </ng-template>
+
+    </p-table>
+</p-card>
