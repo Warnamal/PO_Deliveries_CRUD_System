@@ -1,3 +1,14 @@
 import { Routes } from '@angular/router';
+import { PurchaseOrdersComponent } from './features/purchase-orders/purchase-orders.component';
+import { DeliveriesComponent } from './features/deliveries/deliveries.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    {
+        path: 'purchaseOrders',
+        component: PurchaseOrdersComponent
+    },
+    {
+        path: 'deliveries',
+        component: DeliveriesComponent
+    }
+];

@@ -1,0 +1,737 @@
+/* ============================================
+   CARD STYLING
+   ============================================ */
+.p-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.p-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.p-card-title i {
+  color: #2196F3;
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+.flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+/* ============================================
+   GRID SYSTEM
+   ============================================ */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+}
+
+.formgrid {
+  margin: 0 -0.5rem;
+}
+
+.formgrid .field {
+  padding: 0 0.5rem;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* ============================================
+   FORM FIELDS
+   ============================================ */
+.field {
+  margin-bottom: 1.25rem;
+  padding: 0 0.5rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+  height: 21px;
+  line-height: 21px;
+}
+
+.field label.required::after,
+.required::after {
+  content: " *";
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* ============================================
+   INPUT FIELDS
+   ============================================ */
+::ng-deep .p-inputtext,
+::ng-deep .p-inputtext-sm,
+::ng-deep .p-dropdown,
+::ng-deep .p-calendar .p-inputtext {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: #374151;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  width: 100%;
+  height: 38px;
+  box-sizing: border-box;
+}
+
+::ng-deep .p-inputtext:enabled:focus,
+::ng-deep .p-dropdown:not(.p-disabled).p-focus,
+::ng-deep .p-calendar:not(.p-disabled).p-focus .p-inputtext {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+::ng-deep .p-inputtext:enabled:hover,
+::ng-deep .p-dropdown:not(.p-disabled):hover,
+::ng-deep .p-calendar:not(.p-disabled):hover .p-inputtext {
+  border-color: #9ca3af;
+}
+
+::ng-deep .p-inputtext:disabled,
+::ng-deep .p-dropdown.p-disabled,
+::ng-deep .p-calendar.p-disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Placeholder Styling */
+::ng-deep .p-inputtext::placeholder,
+::ng-deep textarea.p-inputtextarea::placeholder {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   CALENDAR SPECIFIC
+   ============================================ */
+::ng-deep .p-calendar {
+  width: 100%;
+  height: 38px;
+}
+
+::ng-deep .p-calendar.p-inputtext-sm .p-inputtext {
+  height: 38px !important;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+}
+
+::ng-deep .p-calendar .p-datepicker-trigger {
+  color: #6b7280;
+  border-left: 1px solid #d1d5db;
+  height: 38px;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .p-calendar .p-datepicker-trigger:hover {
+  color: #3b82f6;
+}
+
+::ng-deep .p-datepicker {
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .p-datepicker table td > span {
+  border-radius: 4px;
+}
+
+::ng-deep .p-datepicker table td > span.p-highlight {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* ============================================
+   CALENDAR - MATCH INPUT FIELD SIZE
+   ============================================ */
+
+/* Calendar wrapper - same as input */
+::ng-deep .p-calendar {
+  width: 100%;
+  height: 38px;
+}
+
+/* Calendar with button */
+::ng-deep .p-calendar.p-calendar-w-btn {
+  display: flex;
+  width: 100%;
+  height: 38px;
+}
+
+/* Calendar input - exact same as text input */
+::ng-deep .p-calendar.p-calendar-w-btn .p-inputtext {
+  flex: 1;
+  height: 38px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px 0 0 6px;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #374151;
+  background-color: #ffffff;
+}
+
+/* Calendar button - attached seamlessly */
+::ng-deep .p-calendar.p-calendar-w-btn .p-datepicker-trigger {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  background-color: #ffffff;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove any default button styling */
+::ng-deep .p-calendar .p-datepicker-trigger.p-button {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  padding: 0;
+  margin: 0;
+  height: 38px;
+  width: 38px;
+}
+
+/* Focus state */
+::ng-deep .p-calendar.p-calendar-w-btn .p-inputtext:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+/* Hover state for button */
+::ng-deep .p-calendar.p-calendar-w-btn .p-datepicker-trigger:hover {
+  background-color: #f3f4f6;
+  color: #3b82f6;
+}
+
+/* Remove any extra spacing */
+::ng-deep .p-calendar.p-calendar-w-btn .p-inputtext,
+::ng-deep .p-calendar.p-calendar-w-btn .p-datepicker-trigger {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Ensure calendar aligns with inputs vertically */
+::ng-deep .p-calendar.p-calendar-w-btn {
+  align-items: center;
+}
+
+/* ============================================
+   DROPDOWN
+   ============================================ */
+::ng-deep .p-dropdown-trigger {
+  color: #6b7280;
+}
+
+::ng-deep .p-dropdown-label {
+  font-size: 0.875rem;
+}
+
+::ng-deep .p-dropdown-panel {
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  font-size: 0.875rem;
+  padding: 0.625rem 0.875rem;
+  color: #374151;
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+
+/* ============================================
+   TEXTAREA
+   ============================================ */
+::ng-deep textarea.p-inputtextarea {
+  resize: vertical;
+  min-height: 80px;
+  max-height: 300px;
+  font-family: inherit;
+  line-height: 1.5;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.resize-vertical {
+  resize: vertical;
+  min-height: 60px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.field.col-12 textarea {
+  width: 100% !important;
+}
+
+/* ============================================
+   DATA TABLE
+   ============================================ */
+:host ::ng-deep .p-datatable {
+  font-size: 14px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  text-align: left;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background-color: #ffffff;
+  transition: background-color 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #e9ecef;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+  color: #495057;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td:last-child {
+  font-weight: 500;
+}
+
+/* Empty Message */
+:host ::ng-deep .p-datatable .p-datatable-emptymessage td {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Sort Icon */
+:host ::ng-deep .p-sortable-column-icon {
+  color: #6c757d;
+  margin-left: 0.5rem;
+}
+
+:host ::ng-deep .p-sortable-column:hover {
+  background-color: #e9ecef;
+}
+
+/* Scrollbar */
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-scrollable-body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ============================================
+   PAGINATOR
+   ============================================ */
+:host ::ng-deep .p-paginator {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 1rem;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-current {
+  color: #495057;
+  font-weight: 500;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+  color: #2196F3;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.143rem;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background-color: #2196F3;
+  color: #ffffff;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page:hover {
+  background-color: #e3f2fd;
+}
+
+/* ============================================
+   ACTION COLUMN & BUTTONS
+   ============================================ */
+.action-column {
+  text-align: center !important;
+  white-space: nowrap;
+  width: 200px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td.action-column {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.action-btn {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.view-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #2563eb;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.4);
+}
+
+.edit-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #059669;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.4);
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+}
+
+.action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn:disabled:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+/* ============================================
+   ADD BUTTON
+   ============================================ */
+.p-button-success {
+  background-color: #10b981;
+  border-color: #10b981;
+  cursor: pointer;
+}
+
+.p-button-success:hover {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+/* ============================================
+   DIALOG
+   ============================================ */
+:host ::ng-deep .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(2px);
+}
+
+::ng-deep .p-dialog {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  background: white;
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  background-color: #ffffff;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1.25rem 1.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  border-radius: 8px 8px 0 0;
+}
+
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+  color: #6b7280;
+  width: 2rem;
+  height: 2rem;
+}
+
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  padding: 1.5rem;
+  background-color: #ffffff;
+}
+
+::ng-deep .p-dialog .p-dialog-footer {
+  padding: 1rem 1.5rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-radius: 0 0 8px 8px;
+}
+
+/* ============================================
+   DIALOG BUTTONS
+   ============================================ */
+::ng-deep .p-dialog-footer .p-button {
+  border-radius: 6px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .p-dialog-footer .p-button .p-button-icon {
+  font-size: 0.875rem;
+}
+
+::ng-deep .p-dialog-footer .p-button-outlined {
+  border: 1px solid #d1d5db;
+  color: #374151;
+  background-color: #ffffff;
+}
+
+::ng-deep .p-dialog-footer .p-button-outlined:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+  color: #1f2937;
+}
+
+::ng-deep .p-dialog-footer .p-button:not(.p-button-outlined) {
+  background-color: #3b82f6;
+  border: 1px solid #3b82f6;
+  color: #ffffff;
+}
+
+::ng-deep .p-dialog-footer .p-button:not(.p-button-outlined):hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+::ng-deep .p-dialog-footer .p-button:not(.p-button-outlined):active {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+::ng-deep .p-dialog-footer .p-button-danger {
+  background-color: #ef4444;
+  border-color: #ef4444;
+}
+
+::ng-deep .p-dialog-footer .p-button-danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+::ng-deep .p-button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   VIEW DIALOG DETAILS
+   ============================================ */
+.view-details {
+  padding: 1rem 0;
+}
+
+.detail-row {
+  display: flex;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-row label {
+  flex: 0 0 150px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.detail-row span {
+  flex: 1;
+  color: #6b7280;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+/* ============================================
+   WARNING ICON
+   ============================================ */
+.warning-icon {
+  color: #f59e0b;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  /* Dialog */
+  ::ng-deep .p-dialog[style*="700px"],
+  ::ng-deep .p-dialog[style*="600px"],
+  ::ng-deep .p-dialog[style*="450px"] {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+  
+  ::ng-deep .p-dialog .p-dialog-content {
+    padding: 1rem;
+  }
+  
+  ::ng-deep .p-dialog .p-dialog-header {
+    padding: 1rem;
+  }
+  
+  /* Grid - Make columns full width on mobile */
+  .field.col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  /* Card */
+  .p-card-title {
+    font-size: 1.2rem;
+  }
+  
+  /* Table */
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+  
+  /* Action buttons on mobile */
+  .action-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    margin: 0.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stack action buttons vertically on very small screens */
+  .action-column {
+    white-space: normal;
+  }
+  
+  .action-btn {
+    display: block;
+    width: 100%;
+    margin: 0.2rem 0;
+  }
+}

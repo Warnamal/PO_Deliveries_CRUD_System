@@ -1,0 +1,150 @@
+<p-card>
+  <div class="flex justify-content-between pb-3 mt-3">
+    <div class="p-card-title">
+      <i class="fa-solid fa-truck pr-2"></i> Deliveries List
+    </div>
+    <button pButton pRipple label="Add Delivery" icon="pi pi-plus"
+    class="p-button-sm p-button-success" (click)="openAddDialog()"></button>
+  </div>
+
+  <p-table #dt [value]="deliveries" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowHover]="true" [scrollable]="true" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm">
+
+    <!-- Table Header -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="grnNumber">GRN Number <p-sortIcon field="grnNumber"></p-sortIcon></th>
+        <th pSortableColumn="receivedDate">Received Date <p-sortIcon field="receivedDate"></p-sortIcon></th>
+        <th pSortableColumn="receivedBy">Received By <p-sortIcon field="receivedBy"></p-sortIcon></th>
+        <th pSortableColumn="deliveredBy">Delivere By <p-sortIcon field="deliveredBy"></p-sortIcon></th>
+        <th pSortableColumn="remarks">Remarks <p-sortIcon field="remarks"></p-sortIcon></th>
+        <th class="action-column">Action</th>
+      </tr>
+    </ng-template>
+
+    <!-- Table Body -->
+    <ng-template pTemplate="body" let-delivery>
+      <tr>
+        <td>{{ delivery.id }}</td>
+        <td>{{ delivery.grnNumber }}</td>
+        <td>{{ delivery.receivedDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ delivery.receivedBy }}</td>
+        <td>{{ delivery.deliveredBy }}</td>
+        <td style="white-space: normal; word-wrap: break-word;">{{ delivery.remarks }}</td>
+        <td class="action-column">
+          <!-- View Button -->
+          <a type="button" class="action-btn view-btn" (click)="viewDelivery(delivery)" title="View">
+            View
+          </a>
+          <!-- Edit Button -->
+          <a type="button" class="action-btn edit-btn" (click)="editDelivery(delivery)" title="Edit">
+            Edit
+          </a>
+          <!-- Delete Button -->
+          <a type="button" class="action-btn delete-btn" (click)="deleteDelivery(delivery)" title="Delete">
+            Delete
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Empty Message -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">No deliveries found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<!-- View Dialog -->
+<p-dialog [(visible)]="viewDialog" [modal]="true" [style]="{width: '600px'}" header="Delivery Details" [modal]="true"
+  class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="view-details" *ngIf="selectedDelivery">
+      <div class="detail-row">
+        <label>Id:</label>
+        <span>{{ selectedDelivery.id }}</span>
+      </div>
+      <div class="detail-row">
+        <label>GRN Number</label>
+        <span>{{ selectedDelivery.grnNumber }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Received Data</label>
+        <span>{{ selectedDelivery.receivedDate | date: 'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Received By</label>
+        <span>{{ selectedDelivery.receivedBy }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Delivered By</label>
+        <span>{{ selectedDelivery.deliveredBy }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Remarks</label>
+        <span>{{ selectedDelivery.remarks }}</span>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="close" icon="pi pi-times" class="p-button-sm p-button-outline"
+      (click)="viewDialog = false"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Add/Edit Dialog -->
+<p-dialog [(visible)]="addEditDialog" [style]="{width: '700px'}" [header]="isEditMode ? 'Edit Delivery' : 'Add Delivery'" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="formgrid grid" *ngIf="selectedDelivery">
+      <div class="field col-6">
+        <label class="required">GRN Number</label>
+        <input type="text" pInputText [(ngModel)]="selectedDelivery.grnNumber" class="p-inputtext-sm"
+          placeholder="Enter GRN Number" />
+      </div>
+      <div class="field col-6">
+        <label class="required">Received Data</label>
+        <p-calendar [(ngModel)]="selectedDelivery.receivedDate" dateFormat="dd/mm/yy" [showIcon]="true"
+          styleClass="p-inputtext-sm" appendTo="body"></p-calendar>
+      </div>
+      <div class="field col-6">
+        <label class="required">Received By</label>
+        <input type="text" pInputText [(ngModel)]="selectedDelivery.receivedBy" class="p-inputtext-sm"
+          placeholder="Enter Received By" />
+      </div>
+      <div class="field col-6">
+        <label class="required">Delivered By</label>
+        <input type="text" pInputText [(ngModel)]="selectedDelivery.deliveredBy" class="p-inputtext-sm"
+          placeholder="Enter Delivered By" />
+      </div>
+      <div class="field col-12">
+        <label>Remarks</label>
+        <textarea pInputTextarea [(ngModel)]="selectedDelivery.remarks" rows="3" class="p-inputtext-sm resize-vertical"
+          placeholder="Enter Remarks"></textarea>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-sm p-button-outline"
+      (click)="addEditDialog = false"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-sm" (click)="isEditMode ? updateDelivery() : addDelivery()"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Delete Confirmation Dialog -->
+<p-dialog [(visible)]="deleteDialog" header="Confirm Dialog" [modal]="true" [style]="{width: '450px'}">
+  <div class="flex align-items-center justify-content-cente">
+    <i class="pi pi-exclamation-triangle warning-icon mr-3" style="font-size: 2rem;"></i>
+    <span *ngIf="selectedDelivery">
+      Are you sure you want tno delete delivery <b>{{ selectedDelivery.grnNumber }}</b>
+    </span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-times" class="p-button-sm p-button-outline" label="No"
+      (click)="deleteDialog = false"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-sm" label="Yes" (click)="confirmDelete()"></button>
+  </ng-template>
+</p-dialog>
