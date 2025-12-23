@@ -1,5 +1,5 @@
 import { DatePipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
@@ -8,6 +8,11 @@ import { Ripple } from "primeng/ripple";
 import { InputTextModule } from "primeng/inputtext";
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
+import { CreateDeliveryDto, DeliveryService, UpdateDeliveryDto } from '../../core/services/delivery.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-deliveries',
@@ -23,13 +28,18 @@ import { CalendarModule } from 'primeng/calendar';
     InputTextModule,
     FormsModule,
     CalendarModule,
+    DropdownModule,
+    HttpClientModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './deliveries.component.html',
   styleUrl: './deliveries.component.css'
 })
 export class DeliveriesComponent implements OnInit {
 
   deliveries: any[] = [];
+  purchaseOrders: any[] = [];
   selectedDelivery: any = null;
   nextId: number = 1;
 
@@ -37,40 +47,50 @@ export class DeliveriesComponent implements OnInit {
   addEditDialog: boolean = false;
   deleteDialog: boolean = false;
   isEditMode: boolean = false;
+  loading: boolean = false;
+
+  private deliveryService = inject(DeliveryService);
+  private messageService = inject(MessageService);
 
   ngOnInit(): void {
+    this.loadPurchaseOrders();
     this.loadDeliveries();
     this.nextId = Math.max(...this.deliveries.map(d => d.id), 0) + 1;
   }
 
-  loadDeliveries() {
-    this.deliveries = [
-      {
-        id: 1,
-        grnNumber: 'GRN-001',
-        receivedDate: new Date('2025-10-10'),
-        receivedBy: 'Gayan',
-        deliveredBy: 'Gayan Transport',
-        remarks: 'All items received in good condition',
-      },
-      {
-        id: 2,
-        grnNumber: 'GRN-002',
-        receivedDate: new Date('2025-10-12'),
-        receivedBy: 'Sachini',
-        deliveredBy: 'Sachini Logistics',
-        remarks: 'Partial delivery - 2 items pending',
-      },
-      {
-        id: 3,
-        grnNumber: 'GRN-003',
-        receivedDate: new Date('2025-11-03'),
-        receivedBy: 'Hasitha',
-        deliveredBy: 'Hasitha Couriers',
-        remarks: 'Delivered on time',
+  loadPurchaseOrders() {
+    this.deliveryService.getPurchaseOrderDropDown().subscribe({
+      next: (data) => {
+        this.purchaseOrders = data.map(po => ({
+          label: po.poNumber,
+          value: po.id
+        }));
       }
-    ];
+    });    
   }
+
+  loadDeliveries() {
+  this.loading = true;
+  this.deliveryService.getAllDeliveries().subscribe({
+    next: (data) => {
+      this.deliveries = data.map(d => ({
+        ...d,
+        receivedDate: new Date(d.receivedDate),
+        purchaseOrder: d.purchaseOrderNumber || d.purchaseOrderId
+      }));
+      this.loading = false;
+    },
+    error: (error) => {
+      console.error('Full error:', error); 
+      this.loading = false;
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to load deliveries!'
+      });
+    }
+  })
+}
 
   viewDelivery(delivery: any) {
     this.selectedDelivery = { ...delivery };
@@ -79,62 +99,113 @@ export class DeliveriesComponent implements OnInit {
 
   editDelivery(delivery: any) {
     this.isEditMode = true;
-    this.selectedDelivery = { ...delivery };
+    this.selectedDelivery = { 
+      ...delivery,
+      grnNumber: delivery.grnNumber,
+      receivedDate: new Date(delivery.receivedDate) 
+    };
     this.addEditDialog = true;
   }
 
   updateDelivery() {
-    if (!this.selectedDelivery.grnNumber || !this.selectedDelivery.receivedDate ||
-      !this.selectedDelivery.receivedBy || !this.selectedDelivery.deliveredBy) {
-      alert('Please fill all required fields!');
-    } else {
+    if (!this.selectedDelivery.receivedDate ||
+      !this.selectedDelivery.receivedBy || 
+      !this.selectedDelivery.deliveredBy) {
+        this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Please fill all required fields!'
+      });
+      return;
+    } 
 
-      const index = this.deliveries.findIndex(d => d.id === this.selectedDelivery.id);
-      if (index !== -1) {
-        this.deliveries[index] = { ...this.selectedDelivery };
-        this.deliveries = [...this.deliveries]
+    const updateDto: UpdateDeliveryDto = {
+      receivedDate: this.selectedDelivery.receivedDate,
+      receivedBy: this.selectedDelivery.receivedBy,
+      deliveredBy: this.selectedDelivery.deliveredBy,
+      remarks: this.selectedDelivery.remarks || ''
+    };
+
+    this.loading = true;
+    this.deliveryService.updateDelivery(this.selectedDelivery.id, updateDto).subscribe({
+      next: (updateDelivery) => {
+        this.loadDeliveries();
+        this.addEditDialog = false;
+        this.selectedDelivery = null;
+        this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Delivery updated successfully!'
+      });
+        this.loading = false;
+      },
+      error: (error) => {
+        this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to update delivery! + error.message'
+      });
+      this.loading = false;
       }
-
-      this.addEditDialog = false;
-      this.selectedDelivery = null;
-      alert('Delivery updated successfully!')
-    }
-
+    });
   }
 
   openAddDialog(): void {
     this.isEditMode = false;
     this.selectedDelivery = {
-      id: 0,
-      grnNumber: this.generateGRNNumber(),
+      grnNumber: '',
       receivedDate: new Date(),
       receivedBy: '',
       deliveredBy: '',
-      remarks: ''
+      remarks: '',
+      purchaseOrderId: null
     };
     this.addEditDialog = true;
   }
 
-  generateGRNNumber() {
-    const newGrn = this.nextId.toString().padStart(3, '0');
-    return `GRN-${newGrn}`;
-  }
-
   addDelivery(): void {
-    if (!this.selectedDelivery.grnNumber || !this.selectedDelivery.receivedDate ||
-      !this.selectedDelivery.receivedBy || !this.selectedDelivery.deliveredBy) {
-      alert('Please fill all required fields!');
-    } else {
-      this.selectedDelivery.id = this.nextId;
-      this.selectedDelivery.grnNumber = this.generateGRNNumber();
-      this.nextId++;
-      this.deliveries = [...this.deliveries, {...this.selectedDelivery}];
+    if (!this.selectedDelivery.receivedDate ||
+      !this.selectedDelivery.receivedBy || 
+      !this.selectedDelivery.deliveredBy ||
+      !this.selectedDelivery.purchaseOrderId) {
+        this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Please fill all required fields!'
+      });
+      return;
+    } 
 
-      this.addEditDialog = false;
-      this.selectedDelivery = null;
+    const createDto: CreateDeliveryDto = {
+      purchaseOrderId: this.selectedDelivery.purchaseOrderId,
+      receivedDate: this.selectedDelivery.receivedDate,
+      receivedBy: this.selectedDelivery.receivedBy,
+      deliveredBy: this.selectedDelivery.deliveredBy,
+      remarks: this.selectedDelivery.remarks || ''
+    };
 
-      alert('Delivery added successfully!');
-    }
+    this.loading = true;
+    this.deliveryService.createDelivery(createDto).subscribe({
+      next: (newDelivery) => {
+        this.addEditDialog = false;
+        this.selectedDelivery = null;
+        this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Delivery added successfully!'
+      });
+        this.loading = false;
+        window.location.reload();
+      },
+      error: (error) => {
+        this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to add delivery!'
+      });
+      this.loading = false;
+      }
+    })
   }
 
   deleteDelivery(delivery: any) {
@@ -143,15 +214,28 @@ export class DeliveriesComponent implements OnInit {
   }
 
   confirmDelete() {
-    this.deliveries = this.deliveries.filter(d => d.id !== this.selectedDelivery.id);
-
-    this.deleteDialog = false;
-    this.selectedDelivery = null;
-    alert('Delivery deleted successfully!');
+    debugger;
+    this.loading = true;
+    this.deliveryService.deleteDelivery(this.selectedDelivery.id).subscribe({
+      next: () => {
+        this.loadDeliveries();
+        this.deleteDialog = false;
+        this.selectedDelivery = null;
+        this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Delivery deleted successfully!'
+      });
+        this.loading = false;
+      },
+      error: (error) => {
+        this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to load deliveries!'
+      });
+      this.loading = false;
+      }
+    })
   }
-
-
-
-
-
 }

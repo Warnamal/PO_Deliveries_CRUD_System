@@ -1,10 +1,11 @@
+ <p-toast></p-toast>
 <p-card>
   <div class="flex justify-content-between pb-3 mt-3">
     <div class="p-card-title">
       <i class="fa-solid fa-truck pr-2"></i> Deliveries List
     </div>
-    <button pButton pRipple label="Add Delivery" icon="pi pi-plus"
-    class="p-button-sm p-button-success" (click)="openAddDialog()"></button>
+    <button pButton pRipple label="Add Delivery" icon="pi pi-plus" class="p-button-sm p-button-success"
+      (click)="openAddDialog()"></button>
   </div>
 
   <p-table #dt [value]="deliveries" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]"
@@ -14,11 +15,11 @@
     <!-- Table Header -->
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
         <th pSortableColumn="grnNumber">GRN Number <p-sortIcon field="grnNumber"></p-sortIcon></th>
         <th pSortableColumn="receivedDate">Received Date <p-sortIcon field="receivedDate"></p-sortIcon></th>
         <th pSortableColumn="receivedBy">Received By <p-sortIcon field="receivedBy"></p-sortIcon></th>
         <th pSortableColumn="deliveredBy">Delivere By <p-sortIcon field="deliveredBy"></p-sortIcon></th>
+        <th pSortableColumn="remarks">Purchase Order <p-sortIcon field="purchaseOrder"></p-sortIcon></th>
         <th pSortableColumn="remarks">Remarks <p-sortIcon field="remarks"></p-sortIcon></th>
         <th class="action-column">Action</th>
       </tr>
@@ -27,11 +28,11 @@
     <!-- Table Body -->
     <ng-template pTemplate="body" let-delivery>
       <tr>
-        <td>{{ delivery.id }}</td>
         <td>{{ delivery.grnNumber }}</td>
         <td>{{ delivery.receivedDate | date: 'dd/MM/yyyy' }}</td>
         <td>{{ delivery.receivedBy }}</td>
         <td>{{ delivery.deliveredBy }}</td>
+        <td>{{ delivery.purchaseOrder }}</td>
         <td style="white-space: normal; word-wrap: break-word;">{{ delivery.remarks }}</td>
         <td class="action-column">
           <!-- View Button -->
@@ -65,10 +66,6 @@
   <ng-template pTemplate="content">
     <div class="view-details" *ngIf="selectedDelivery">
       <div class="detail-row">
-        <label>Id:</label>
-        <span>{{ selectedDelivery.id }}</span>
-      </div>
-      <div class="detail-row">
         <label>GRN Number</label>
         <span>{{ selectedDelivery.grnNumber }}</span>
       </div>
@@ -85,6 +82,10 @@
         <span>{{ selectedDelivery.deliveredBy }}</span>
       </div>
       <div class="detail-row">
+        <label>Purchase Order:</label>
+        <span>{{ selectedDelivery.purchaseOrder }}</span>
+      </div>
+      <div class="detail-row">
         <label>Remarks</label>
         <span>{{ selectedDelivery.remarks }}</span>
       </div>
@@ -97,13 +98,14 @@
 </p-dialog>
 
 <!-- Add/Edit Dialog -->
-<p-dialog [(visible)]="addEditDialog" [style]="{width: '700px'}" [header]="isEditMode ? 'Edit Delivery' : 'Add Delivery'" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="addEditDialog" [style]="{width: '700px'}"
+  [header]="isEditMode ? 'Edit Delivery' : 'Add Delivery'" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
     <div class="formgrid grid" *ngIf="selectedDelivery">
-      <div class="field col-6">
-        <label class="required">GRN Number</label>
+      <div class="field col-6" *ngIf="isEditMode">
+        <label>GRN Number</label>
         <input type="text" pInputText [(ngModel)]="selectedDelivery.grnNumber" class="p-inputtext-sm"
-          placeholder="Enter GRN Number" />
+          placeholder="Enter GRN Number" disabled/>
       </div>
       <div class="field col-6">
         <label class="required">Received Data</label>
@@ -121,6 +123,19 @@
           placeholder="Enter Delivered By" />
       </div>
       <div class="field col-12">
+        <label class="required">Purchase Order</label>
+        <p-dropdown 
+          [(ngModel)]="selectedDelivery.purchaseOrderId" 
+          [options]="purchaseOrders" 
+          optionLabel="label"
+          optionValue="value" 
+          placeholder="Select a Purchase Order" 
+          [showClear]="true" 
+          styleClass="p-inputtext-sm"
+          appendTo="body">
+        </p-dropdown>
+      </div>
+      <div class="field col-12">
         <label>Remarks</label>
         <textarea pInputTextarea [(ngModel)]="selectedDelivery.remarks" rows="3" class="p-inputtext-sm resize-vertical"
           placeholder="Enter Remarks"></textarea>
@@ -130,7 +145,8 @@
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-sm p-button-outline"
       (click)="addEditDialog = false"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-sm" (click)="isEditMode ? updateDelivery() : addDelivery()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-sm"
+      (click)="isEditMode ? updateDelivery() : addDelivery()"></button>
   </ng-template>
 </p-dialog>
 

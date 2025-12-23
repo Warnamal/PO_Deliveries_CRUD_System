@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -11,4 +11,14 @@ import { ButtonModule } from 'primeng/button';
 })
 export class AppComponent {
   title = 'PO_Deliveries_CRUD_System';
+
+  constructor(private router: Router) {}
+  
+  navigateToDeliveries() {
+  this.router.navigate(['/deliveries']);
+}
+
+navigateToPurchaseOrders() {
+  this.router.navigate(['/purchaseOrders']);
+}
 }

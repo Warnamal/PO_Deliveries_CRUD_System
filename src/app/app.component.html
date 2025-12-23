@@ -5,16 +5,14 @@
     <p-button 
       label="Purchase Orders" 
       icon="pi pi-shopping-cart" 
-      routerLink="/purchaseOrders"
-      routerLinkActive="active-btn"
+      (onClick)="navigateToPurchaseOrders()"
       styleClass="p-button-raised p-button-primary">
     </p-button>
     
     <p-button 
       label="Deliveries" 
       icon="pi pi-truck" 
-      routerLink="/deliveries"
-      routerLinkActive="active-btn"
+      (onClick)="navigateToDeliveries()"
       styleClass="p-button-raised p-button-success">
     </p-button>
   </div>

@@ -4,6 +4,11 @@ import { DeliveriesComponent } from './features/deliveries/deliveries.component'
 
 export const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'purchaseOrders',
+        pathMatch: 'full'
+    },
+    {
         path: 'purchaseOrders',
         component: PurchaseOrdersComponent
     },
